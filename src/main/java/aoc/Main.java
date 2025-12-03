@@ -3,6 +3,7 @@ package aoc;
 import aoc.common.AbstractProblem;
 import aoc.day1.Problem1;
 import aoc.day2.Problem2;
+import aoc.day3.Problem3;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ public class Main {
 
         problems.add(new Problem1());
         problems.add(new Problem2());
+        problems.add(new Problem3());
 
         long fullStartTime = System.currentTimeMillis();
 
