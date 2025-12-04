@@ -10,7 +10,7 @@ public abstract class AbstractProblem {
         this.day = day;
     }
 
-    public abstract void solve() throws IOException;
+    public abstract String[] solve() throws IOException;
 
     public String toString(){
         return String.format("AOC 2025 - Day %d", this.day);

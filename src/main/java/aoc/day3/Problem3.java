@@ -10,12 +10,12 @@ public class Problem3 extends AbstractProblem {
     }
 
     @Override
-    public void solve() throws IOException {
+    public String[] solve() throws IOException {
         var lines = this.readLines("input.txt");
         var part1 = solvePart(lines, 2);
         var part2 = solvePart(lines, 12);
 
-        System.out.printf("Part 1: %d || Part 2: %d", part1, part2);
+        return new String[]{ String.valueOf(part1), String.valueOf(part2) };
     }
 
     private long solvePart(String[] lines, int length){

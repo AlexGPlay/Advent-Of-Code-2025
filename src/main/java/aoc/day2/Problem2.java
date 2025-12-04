@@ -15,11 +15,12 @@ public class Problem2 extends AbstractProblem {
     }
 
     @Override
-    public void solve() throws IOException {
+    public String[] solve() throws IOException {
         var limits = getInput();
         var part1 = solvePart1(limits);
         var part2 = solvePart2(limits);
-        System.out.printf("Part 1: %d || Part 2: %d", part1, part2);
+
+        return new String[]{ String.valueOf(part1), String.valueOf(part2) };
     }
 
     // Part 1 + Helpers

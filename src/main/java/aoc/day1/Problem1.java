@@ -10,12 +10,13 @@ public class Problem1 extends AbstractProblem {
         super(1);
     }
 
-    public void solve() throws IOException {
+    @Override
+    public String[] solve() throws IOException {
         var input = this.readLines("input.txt");
-        this.solveParts(input);
+        return this.solveParts(input);
     }
 
-    private void solveParts(String[] lines){
+    private String[] solveParts(String[] lines){
         var start = 50;
         var zeroStops = 0;
         var passesByZero = 0;
@@ -36,7 +37,7 @@ public class Problem1 extends AbstractProblem {
             if(start == 0) zeroStops++;
         }
 
-        System.out.printf("Part 1: %d || Part 2: %d", zeroStops, passesByZero);
+        return new String[]{ String.valueOf(zeroStops), String.valueOf(passesByZero) };
     }
 
     private int getRotation(String line){
