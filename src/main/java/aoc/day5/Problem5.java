@@ -47,21 +47,17 @@ public class Problem5 extends AbstractProblem {
         return total;
     }
 
-    private List<Interval> mergeIntervals(List<Interval> currentIntervals, Interval newInterval){
+    private void mergeIntervals(List<Interval> currentIntervals, Interval newInterval){
         Interval current = newInterval;
-        List<Interval> newIntervalsList = new ArrayList<>();
-
-        for(var interval : currentIntervals){
-            if(interval.intersects(current)){
+        for (int i = 0; i < currentIntervals.size(); i++){
+            Interval interval = currentIntervals.get(i);
+            if (interval.intersects(current)){
                 current = current.combine(interval);
-            }
-            else {
-                newIntervalsList.add(interval);
+                currentIntervals.remove(i);
+                i--;
             }
         }
-
-        newIntervalsList.add(current);
-        return newIntervalsList;
+        currentIntervals.add(current);
     }
 
     private Tuple<List<Interval>, List<Long>> parseInput() throws IOException {
@@ -79,7 +75,7 @@ public class Problem5 extends AbstractProblem {
             long lower = Long.parseLong(parts[0]);
             long upper = Long.parseLong(parts[1]);
             Interval newInterval = new Interval(lower, upper);
-            parsedRanges = mergeIntervals(parsedRanges, newInterval);
+            mergeIntervals(parsedRanges, newInterval);
         }
 
         for(var id : ids) parsedIds.add(Long.parseLong(id));
