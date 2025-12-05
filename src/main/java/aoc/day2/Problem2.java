@@ -74,11 +74,9 @@ public class Problem2 extends AbstractProblem {
 
     // Part 2 + Helpers
     private long solvePart2(List<long[]> limits){
-        long total = 0;
-        for(var limit : limits){
-            total += getInvalidIdsInRangeForPart2(limit);
-        }
-        return total;
+        return limits.parallelStream()
+                .mapToLong(this::getInvalidIdsInRangeForPart2)
+                .sum();
     }
 
     private long getInvalidIdsInRangeForPart2(long[] limit){
@@ -96,7 +94,7 @@ public class Problem2 extends AbstractProblem {
 
         while(currentNumberLength <= maxHalfLength){
             for(var i=currentNumberLength*2;i<=upperLimitLength;i++){
-                var newNumber = composeNumber(currentNumber, i);
+                var newNumber = composeNumber(currentNumber, i, currentNumberLength);
                 if(newNumber < lowerLimit) continue;
                 if(newNumber > upperLimit) break;
                 if(alreadySummed.contains(newNumber)) continue;
@@ -111,9 +109,7 @@ public class Problem2 extends AbstractProblem {
         return total;
     }
 
-    private long composeNumber(long base, long length){
-        var seqLen = getNumberLength(base);
-
+    private long composeNumber(long base, long length, long seqLen){
         long result = 0;
         for (int i = 0; i < length / seqLen; i++) {
             result = result * (long) Math.pow(10, seqLen) + base;
