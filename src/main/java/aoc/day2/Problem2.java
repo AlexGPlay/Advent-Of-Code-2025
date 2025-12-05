@@ -36,10 +36,10 @@ public class Problem2 extends AbstractProblem {
         long lowerLimit = limit[0];
         long upperLimit = limit[1];
 
-        long maxHalfLength = (long) (Math.log10(Math.abs(upperLimit)) + 1)/2;
+        long maxHalfLength = getNumberLength(upperLimit)/2;
 
         var currentHalf = getInitialHalf(lowerLimit);
-        var currentHalfLength = (long) Math.log10(Math.abs(currentHalf)) + 1;
+        long currentHalfLength = getNumberLength(currentHalf);
         long total = 0;
 
         while(currentHalfLength <= maxHalfLength){
@@ -60,7 +60,7 @@ public class Problem2 extends AbstractProblem {
     }
 
     private long getInitialHalf(long lowerLimit){
-        long length = (long) Math.log10(Math.abs(lowerLimit)) + 1;
+        long length = getNumberLength(lowerLimit);
         if(length % 2 == 0) {
             long half = length / 2;
             long pow = (long) Math.pow(10, half);
@@ -88,7 +88,7 @@ public class Problem2 extends AbstractProblem {
         long upperLimit = limit[1];
 
         long upperLimitLength = getNumberLength(upperLimit);
-        long maxHalfLength = (long) upperLimitLength/2;
+        long maxHalfLength = upperLimitLength/2;
         var currentNumber = 1;
         long currentNumberLength = 1;
 
@@ -105,7 +105,7 @@ public class Problem2 extends AbstractProblem {
             }
 
             currentNumber++;
-            currentNumberLength = (long) Math.log10(Math.abs(currentNumber)) + 1;
+            currentNumberLength = getNumberLength(currentNumber);
         }
 
         return total;
