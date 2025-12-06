@@ -66,9 +66,10 @@ public class Problem5 extends AbstractProblem {
         List<Interval> parsedRanges = new ArrayList<>();
         List<Long> parsedIds = new ArrayList<>();
 
-        String[] blocks = input.split("\\R\\R");
-        String[] ranges = blocks[0].split("\\R");
-        String[] ids = blocks[1].split("\\R");
+        var lineSeparator = System.lineSeparator();
+        String[] blocks = input.split(lineSeparator + lineSeparator);
+        String[] ranges = blocks[0].split(lineSeparator);
+        String[] ids = blocks[1].split(lineSeparator);
 
         for(var range : ranges){
             String[] parts = range.split("-");

@@ -27,7 +27,8 @@ public abstract class AbstractProblem {
     }
 
     public String[] readLines(String filename) throws IOException {
-        return this.read(filename).split("\\R");
+        var lineSeperator = System.lineSeparator();
+        return this.read(filename).split(lineSeperator);
     }
 
 }
