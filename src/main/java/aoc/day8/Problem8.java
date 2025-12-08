@@ -20,6 +20,8 @@ public class Problem8 extends AbstractProblem {
 
     private String[] solveParts(List<Point> points){
         Map<Point, Set<Point>> belongsTo = new HashMap<>();
+        int currentGroups = points.size();
+
         for(var point : points){
             var pointGroup = new HashSet<Point>();
             pointGroup.add(point);
@@ -48,6 +50,7 @@ public class Problem8 extends AbstractProblem {
             if(group1.equals(group2)) continue;
 
             // Otherwise we merge the groups
+            currentGroups--;
             Set<Point> mergedGroup = new HashSet<>();
             mergedGroup.addAll(group1);
             mergedGroup.addAll(group2);
@@ -71,23 +74,17 @@ public class Problem8 extends AbstractProblem {
             if(group1.equals(group2)) continue;
 
             // Otherwise we merge the groups
-            Set<Point> mergedGroup = new HashSet<>();
-            mergedGroup.addAll(group1);
-            mergedGroup.addAll(group2);
+            currentGroups--;
+            group1.addAll(group2);
+            for (var p : group2) belongsTo.put(p, group1);
 
-            for (var p : mergedGroup) belongsTo.put(p, mergedGroup);
-
-            if(countCircuits(belongsTo) == 1) {
+            if(currentGroups == 1) {
                 part2 = point1.x * point2.x;
                 break;
             }
         }
 
         return new String[]{ String.valueOf(part1), String.valueOf(part2) };
-    }
-
-    private int countCircuits(Map<Point, Set<Point>> groups){
-        return new HashSet<>(groups.values()).size();
     }
 
     private int getBiggestGroupsTotal(Map<Point, Set<Point>> groups){
