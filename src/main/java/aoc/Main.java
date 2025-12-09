@@ -9,6 +9,7 @@ import aoc.day5.Problem5;
 import aoc.day6.Problem6;
 import aoc.day7.Problem7;
 import aoc.day8.Problem8;
+import aoc.day9.Problem9;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ public class Main {
         problems.add(new Problem6());
         problems.add(new Problem7());
         problems.add(new Problem8());
+        problems.add(new Problem9());
 
         long fullStartTime = System.currentTimeMillis();
 
