@@ -2,6 +2,7 @@ package aoc;
 
 import aoc.common.AbstractProblem;
 import aoc.day1.Problem1;
+import aoc.day10.Problem10;
 import aoc.day2.Problem2;
 import aoc.day3.Problem3;
 import aoc.day4.Problem4;
@@ -27,6 +28,7 @@ public class Main {
         problems.add(new Problem7());
         problems.add(new Problem8());
         problems.add(new Problem9());
+        problems.add(new Problem10());
 
         long fullStartTime = System.currentTimeMillis();
 
