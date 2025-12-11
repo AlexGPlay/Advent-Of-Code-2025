@@ -5,7 +5,9 @@ import aoc.common.AbstractProblem;
 import java.io.IOException;
 import java.util.*;
 
-import com.microsoft.z3.*;
+import org.ojalgo.optimisation.Expression;
+import org.ojalgo.optimisation.ExpressionsBasedModel;
+import org.ojalgo.optimisation.Variable;
 
 public class Problem10 extends AbstractProblem {
     public Problem10() {
@@ -56,43 +58,29 @@ public class Problem10 extends AbstractProblem {
     }
 
     private int solveMachineJoltage(Machine machine){
-        Map<Integer, List<IntExpr>> buttonMapping = new HashMap<>();
-        List<IntExpr> variables = new ArrayList<>();
-        var context = new Context();
-        var opt = context.mkOptimize();
+        ExpressionsBasedModel model = new ExpressionsBasedModel();
 
-        for(int i=0;i<machine.buttons().size();i++){
-            var buttonVariable = "v_" + (char)(97 + i);
-            var ctxVariable = context.mkIntConst(buttonVariable);
-            variables.add(ctxVariable);
-            opt.Add(context.mkGe(ctxVariable, context.mkInt(0)));
+        int buttons = machine.buttons().size();
+        Variable[] vars = new Variable[buttons];
 
-            for(var position : machine.buttons().get(i)){
-                List<IntExpr> list = new ArrayList<>();
-                if(buttonMapping.containsKey(position)) list = buttonMapping.get(position);
-                list.add(ctxVariable);
-                buttonMapping.put(position, list);
+        for (int i = 0; i < buttons; i++) {
+            vars[i] = model.addVariable("v" + i).lower(0).integer(true).weight(1);
+        }
+
+        for (int j = 0; j < machine.joltageRequirements().length; j++) {
+            Expression expr = model.addExpression("c" + j).level(machine.joltageRequirements()[j]);
+
+            for (int i = 0; i < buttons; i++) {
+                for (int pos : machine.buttons().get(i)) {
+                    if (pos == j) {
+                        expr.set(vars[i], 1);
+                    }
+                }
             }
         }
 
-        for(var entry : buttonMapping.entrySet()){
-            var sum = context.mkAdd(entry.getValue().toArray(IntExpr[]::new));
-            var joltageValue = machine.joltageRequirements()[entry.getKey()];
-            opt.Add(context.mkEq(sum, context.mkInt(joltageValue)));
-        }
-
-        var buttonVariablesArray = variables.toArray(IntExpr[]::new);
-        var totalPresses = context.mkAdd(buttonVariablesArray);
-        opt.MkMinimize(totalPresses);
-
-        if (opt.Check() != Status.SATISFIABLE) {
-            throw new RuntimeException("No solution exists for this machine!");
-        }
-
-        Model model = opt.getModel();
-        var output = (IntNum) model.evaluate(totalPresses, false);
-
-        return output.getInt();
+        var result = model.minimise();
+        return (int) Math.round(result.getValue());
     }
 
 
