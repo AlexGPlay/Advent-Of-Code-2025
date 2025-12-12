@@ -22,60 +22,43 @@ public class Problem12 extends AbstractProblem {
         return new String[]{ String.valueOf(part1), "Happy Advent of Code 2025!" };
     }
 
-    private int solvePart1(List<boolean[][]> gifts, List<Region> regions){
-        var giftsSizes = getSizes(gifts);
+    private int solvePart1(List<Integer> gifts, List<Region> regions){
         var total = 0;
         for(var region : regions) {
-            if(fitsAll(giftsSizes, region)) total++;
+            if(fitsAll(gifts, region)) total++;
         }
         return total;
     }
 
-    private boolean fitsAll(int[] gifts, Region region){
+    private boolean fitsAll(List<Integer> gifts, Region region){
         var regionSize = region.width() * region.height();
 
         var allGiftsSize = 0;
         for(var i=0;i<region.presents().length;i++){
             var number = region.presents()[i];
-            var size = gifts[i];
+            var size = gifts.get(i);
             allGiftsSize += size * number;
         }
 
         return allGiftsSize < regionSize;
     }
 
-    private int[] getSizes(List<boolean[][]> gifts){
-        var sizes = new int[gifts.size()];
-        for(var i=0;i<gifts.size();i++){
-            var size = 0;
-            var gift = gifts.get(i);
-
-            for (boolean[] booleans : gift) {
-                for (boolean aBoolean : booleans) {
-                    if (aBoolean) size++;
-                }
-            }
-            sizes[i] = size;
-        }
-        return sizes;
-    }
-
-    private Tuple<List<boolean[][]>, List<Region>> parseInput() throws IOException {
+    private Tuple<List<Integer>, List<Region>> parseInput() throws IOException {
         var input = this.read("input.txt");
         var parts = input.split(System.lineSeparator() + System.lineSeparator());
 
-        List<boolean[][]> presents = new ArrayList<>();
+        List<Integer> presents = new ArrayList<>();
         for(var i=0;i<parts.length-1;i++){
-            boolean[][] presentSize = new boolean[3][3];
             var presentStr = parts[i].split(System.lineSeparator());
+            var total = 0;
 
             for(var j=1;j<presentStr.length;j++){
                 for(var z=0;z<presentStr[j].length();z++){
-                    presentSize[j-1][z] = presentStr[j].charAt(z) == '#';
+                    if(presentStr[j].charAt(z) == '#') total++;
                 }
             }
 
-            presents.add(presentSize);
+            presents.add(total);
         }
 
         List<Region> parsedRegions = new ArrayList<>();
